@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+  font-family: "Gupter", serif;
+  background-color: white;
+  color: black;
+}
+
+.custom-img {
+  height: 405px; 
+  width: 100%; 
+  margin-top: 70px;
+  border: solid whitesmoke 20px;
+}
+
+.slick-arrow {
+  display: none !important;
+}
+
+
+
