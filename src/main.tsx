@@ -8,6 +8,7 @@ import App from "./App";
 import BonsaiPlant from "./RouterElements/BonsaiPlant/BonsaiPlant";
 import AllRouterParents from "./RouterElements/AllRouterParents";
 import Home from "./Home/Home";
+import ProductDetails from "./Home/Products/ProductDetails";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/product/:productId",
+        element: <ProductDetails />,
       },
     ],
   },

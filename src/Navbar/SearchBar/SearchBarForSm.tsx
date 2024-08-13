@@ -1,20 +1,16 @@
-
-
 const SearchBarForSm = () => {
   return (
-    <div className="flex items-center border border-gray-300 rounded-xl w-[90%]">
+    <div className="flex items-center border border-gray-300 rounded-xl w-full sm:w-[80%] md:w-[60%] lg:w-[50%]">
       <input
         type="text"
         placeholder="Search"
-        className="px-4 py-2 w-full focus:outline-none text-black bg-gray-100 rounded-l-xl"
+        className="px-2 py-1 sm:px-3 sm:py-2 w-full focus:outline-none text-black bg-gray-100 rounded-l-xl"
       />
       <div className="flex items-center relative border-l-2 border-gray-300">
-        {" "}
-        {/* Ensure relative positioning */}
-        <button className="px-4 bg-green-500 h-10  flex items-center justify-center rounded-r-xl">
+        <button className="px-2 sm:px-3 bg-green-500 h-8 sm:h-9 md:h-10 flex items-center justify-center rounded-r-xl">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 text-white"
+            className="h-4 sm:h-5 md:h-6 w-4 sm:w-5 md:w-6 text-white"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
