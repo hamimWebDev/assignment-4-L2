@@ -1,21 +1,23 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AllCategories } from "../../Home/Category/AllCategories";
 
 const DropdownMenu: React.FC = () => {
+  const allCategories = AllCategories();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All categories");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
+  const navigate = useNavigate();
 
-  const handleSelect = (category: string) => {
-    setSelectedCategory(category);
+  const handleSelect = (categoryName: string) => {
+    setSelectedCategory(categoryName);
     setIsOpen(false); // Close dropdown after selection
-    console.log(category);
+    const categoryUrl = `/${categoryName.toLowerCase().replace(/\s+/g, "-")}`;
+    navigate(categoryUrl, { state: { categoryName } });
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -33,21 +35,6 @@ const DropdownMenu: React.FC = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  const getCategoryUrl = (category: string) => {
-    const categoryUrls: { [key: string]: string } = {
-      "Artificial Grass": "/artificial-grass",
-      "Bonsai Plant": "/bonsai-plants",
-      "Flower Plants": "/flower-plants",
-      "Foreign Plants": "/foreign-plants",
-      "Fruit Plants": "/fruit-plants",
-      "Herbal Plants": "/herbal-plants",
-      "Outdoor Plants": "/outdoor-plants",
-      "Woody Plants": "/woody-plants",
-    };
-
-    return categoryUrls[category] || "/";
-  };
 
   return (
     <div ref={dropdownRef} className="relative inline-block text-left">
@@ -74,17 +61,16 @@ const DropdownMenu: React.FC = () => {
         </svg>
       </button>
 
-      {/* Dropdown menu with debugging styles */}
+      {/* Dropdown menu */}
       {isOpen && (
         <ul
-          className="absolute right-0 mt-2 w-44 border border-gray-300 rounded-md shadow-lg bg-white z-50"
+          className="absolute right-0 mt-6 w-44 border border-gray-300 rounded-md shadow-lg bg-white z-50"
           style={{ display: isOpen ? "block" : "none" }}
         >
-          {AllCategories.map((category, index) => (
+          {allCategories.map((category: any, index: any) => (
             <li key={index}>
-              <Link
+              <div
                 onClick={() => handleSelect(category.name)}
-                to={`${getCategoryUrl(category.name)}`}
                 className={`block px-4 py-2 text-sm cursor-pointer ${
                   selectedCategory === category.name
                     ? "bg-gray-200 font-bold text-blue-600 rounded-md"
@@ -92,7 +78,7 @@ const DropdownMenu: React.FC = () => {
                 }`}
               >
                 {category.name}
-              </Link>
+              </div>
             </li>
           ))}
         </ul>

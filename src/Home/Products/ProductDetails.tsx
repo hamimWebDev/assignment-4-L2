@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import DetailsCarousel from "./DetailsCarousel";
 import Counter from "./Counter";
+import { useAppDispatch } from "../../redux/hooks";
+import { addToCart } from "../../redux/features/cartSlice";
 
 interface Product {
   _id: string;
@@ -16,24 +18,34 @@ interface Product {
   brand: string;
   shopArea: string;
   policy: string;
-  PolicyDays: number;
+  policyDays: number;
   contact_whatsapp: string;
   contact_phone: string;
 }
 
 const ProductDetails: React.FC = () => {
-  const location = useLocation();
-  const product: Product | undefined = location.state?.product;
-
-  // Scroll to the top of the page when the component is mounted
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  const location = useLocation();
+  const navigate = useNavigate(); // Move useNavigate to the top of the component
+  const dispatch = useAppDispatch(); // Move useAppDispatch to the top of the component
+
+  const product: Product | undefined = location.state?.product;
 
   if (!product) {
     return <div>Product not found</div>;
   }
 
+  const handleOrderClick = () => {
+    dispatch(addToCart(product));
+    navigate(`/customer/checkout`);
+  };
+
+  const handleAddCartClick = (product: Product) => {
+    dispatch(addToCart(product));
+  };
+  console.log(product);
   return (
     <div className="container mx-auto p-6 pt-28">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:gap-4">
@@ -67,7 +79,7 @@ const ProductDetails: React.FC = () => {
             </h1>
           </div>
           <div className="mt-3 bg-pink-600 w-max p-1 text-center text-white text-lg font-medium">
-            {product.PolicyDays} Days {product.policy}
+            {product.policyDays} Days {product.policy}
           </div>
           <h1 className=" mt-3 font-semibold">
             Size:{" "}
@@ -76,10 +88,16 @@ const ProductDetails: React.FC = () => {
           <h1 className="mt-3 font-semibold">Brand: {product.brand}</h1>
           <Counter stock={product.inStock} />
           <div className="grid grid-cols-1 lg:grid-cols-2 mt-3 p-2 gap-3 ">
-            <button className="bg-green-400 text-white p-2 rounded-md font-semibold text-lg hover:bg-blue-600">
+            <button
+              onClick={() => handleAddCartClick(product)}
+              className="bg-green-400 text-white p-2 rounded-md font-semibold text-lg hover:bg-blue-600"
+            >
               Add To Cart
             </button>
-            <button className="bg-rose-500 text-white p-2 rounded-md font-semibold text-lg hover:bg-green-600">
+            <button
+              onClick={() => handleOrderClick()}
+              className="bg-rose-500 text-white p-2 rounded-md font-semibold text-lg hover:bg-green-600"
+            >
               Order Now
             </button>
           </div>

@@ -5,10 +5,14 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import App from "./App";
-import BonsaiPlant from "./RouterElements/BonsaiPlant/BonsaiPlant";
+
 import AllRouterParents from "./RouterElements/AllRouterParents";
 import Home from "./Home/Home";
 import ProductDetails from "./Home/Products/ProductDetails";
+import ProductCheckout from "./Home/Products/ProductCheckout";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+import CategoryPlant from "./RouterElements/BonsaiPlant/CategoryPlant";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +27,10 @@ const router = createBrowserRouter([
         path: "/product/:productId",
         element: <ProductDetails />,
       },
+      {
+        path: "/customer/checkout",
+        element: <ProductCheckout />,
+      },
     ],
   },
   {
@@ -30,36 +38,8 @@ const router = createBrowserRouter([
     element: <AllRouterParents />,
     children: [
       {
-        path: "/artificial-grass",
-        element: <div className="pt-20">This is artificial grass</div>,
-      },
-      {
-        path: "/bonsai-plants",
-        element: <BonsaiPlant />,
-      },
-      {
-        path: "/flower-plants",
-        element: <div className="pt-20">This is flower plants</div>,
-      },
-      {
-        path: "/foreign-plants",
-        element: <div className="pt-20">This is foreign plants</div>,
-      },
-      {
-        path: "/fruit-plants",
-        element: <div className="pt-20">This is fruit plants</div>,
-      },
-      {
-        path: "/herbal-plants",
-        element: <div className="pt-20">This is herbal plants</div>,
-      },
-      {
-        path: "/outdoor-plants",
-        element: <div className="pt-20">This is outdoor plants</div>,
-      },
-      {
-        path: "/woody-plants",
-        element: <div className="pt-20">This is woody plants</div>,
+        path: "/:category-plants",
+        element: <CategoryPlant />,
       },
     ],
   },
@@ -67,6 +47,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );

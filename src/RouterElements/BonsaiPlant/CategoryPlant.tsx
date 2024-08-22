@@ -1,29 +1,17 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { ProductCard } from "./ProductCard";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useGetProductQuery } from "../../redux/api/productApi";
+import { useEffect, useState } from "react";
+import { Product } from "../../Home/Products/ProductGrid";
+import { ProductCard } from "../../Home/Products/ProductCard";
 
-// Define a type for the product
-export interface Product {
-  _id: string;
-  images: string[];
-  name: string;
-  category: string;
-  oldPrice: string;
-  newPrice: string;
-  rating: number;
-  inStock: number;
-  size: string;
-  brand: string;
-  shopArea: string;
-  policy: string;
-  PolicyDays: number;
-  contact_whatsapp: string;
-  contact_phone: string;
-}
+const CategoryPlant = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  const location = useLocation();
+  const CategoryName = location.state?.categoryName;
+  const { data, isLoading } = useGetProductQuery(CategoryName);
 
-const ProductGrid: React.FC = () => {
-  const { data, isLoading } = useGetProductQuery([]);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 10;
   const navigate = useNavigate();
@@ -58,11 +46,11 @@ const ProductGrid: React.FC = () => {
     <div>
       <div className="flex justify-between items-center mx-3 bg-blue-800 mt-3">
         <div className="bg-green-400 p-2 pr-10 ml-3 rounded-tr-full">
-          <h1 className="text-2xl text-gray-100 font-bold">All Plants</h1>
+          <h1 className="text-2xl text-gray-100 font-bold">{CategoryName}</h1>
         </div>
         <div className="text-gray-100 flex items-center mr-3">
-          <h1 className="text-xl lg:text-2xl">Available now:</h1>
-          <div className="text-2xl bg-green-400 p-1 rounded-md ml-1">
+          <h1 className="text-base lg:text-2xl">Available now:</h1>
+          <div className="lg:text-2xl bg-green-400 p-1 rounded-md ml-1">
             {products.length}
           </div>
         </div>
@@ -121,4 +109,4 @@ const ProductGrid: React.FC = () => {
   );
 };
 
-export default ProductGrid;
+export default CategoryPlant;

@@ -6,8 +6,12 @@ interface CounterProps {
   stock: number;
 }
 
+export let Count: number;
+
 const Counter: React.FC<CounterProps> = ({ stock }) => {
   const [count, setCount] = useState<number>(1);
+
+  Count = count;
   const [toastShown, setToastShown] = useState<boolean>(false);
 
   const increment = () => {
@@ -30,13 +34,19 @@ const Counter: React.FC<CounterProps> = ({ stock }) => {
   return (
     <div className="flex items-center border-2 border-black w-32 text-3xl font-bold mt-3">
       <ToastContainer className="text-base w-min" />
-      <button onClick={decrement} className="flex justify-center items-center flex-1 border-r-2 border-black">
+      <button
+        onClick={decrement}
+        className="flex justify-center items-center flex-1 border-r-2 border-black"
+      >
         -
       </button>
       <div className="flex justify-center items-center flex-1 text-xl">
         {count}
       </div>
-      <button onClick={increment} className="flex justify-center items-center flex-1  border-l-2 border-black ">
+      <button
+        onClick={increment}
+        className="flex justify-center items-center flex-1  border-l-2 border-black "
+      >
         +
       </button>
     </div>
