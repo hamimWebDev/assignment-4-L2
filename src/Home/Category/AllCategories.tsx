@@ -1,7 +1,7 @@
 import { useGetCategoryQuery } from "../../redux/api/categoryApi";
 
 export const AllCategories = () => {
-  const { data, isLoading, error } = useGetCategoryQuery(); // Adjust the hook and arguments as needed
+  const { data, isLoading, error } = useGetCategoryQuery(undefined); // Adjust the hook and arguments as needed
 
   if (isLoading) {
     return "Loading..."; // or return a loading spinner component if needed

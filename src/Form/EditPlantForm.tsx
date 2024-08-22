@@ -8,7 +8,7 @@ interface EditPlantFormProps {
 }
 
 const EditPlantForm: React.FC<EditPlantFormProps> = ({ _id }) => {
-  const { data } = useGetCategoryQuery();
+  const { data } = useGetCategoryQuery(undefined);
   const categories = data?.data.map((item: any) => item.name) || [];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -86,9 +86,8 @@ const EditPlantForm: React.FC<EditPlantFormProps> = ({ _id }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Upload images to ImageBB
-    const imageUrls = await uploadImagesToImageBB(formData.productImages);
 
+    // Check if at least 2 images are uploaded
     if (
       formData.productImages.length < 2 &&
       formData.productImages.length > 0
@@ -96,71 +95,47 @@ const EditPlantForm: React.FC<EditPlantFormProps> = ({ _id }) => {
       alert("Please upload at least 2 product images.");
       return;
     }
+
+    // Upload images to ImageBB
+    const imageUrls = await uploadImagesToImageBB(formData.productImages);
+
     // Construct the object to send to updateProduct mutation
     const updatedProductData: {
-      name: string;
-      category: string;
-      newPrice: string;
-      oldPrice: string;
-      rating: number | null;
-      inStock: number | null;
-      size: string;
-      brand: string;
-      shopArea: string;
-      policy: string;
-      policyDays: number | null;
-      contact_whatsapp: string;
-      contact_phone: string;
-      images: string[];
+      name?: string;
+      category?: string;
+      newPrice?: string;
+      oldPrice?: string;
+      rating?: number | null;
+      inStock?: number | null;
+      size?: string;
+      brand?: string;
+      shopArea?: string;
+      policy?: string;
+      policyDays?: number | null;
+      contact_whatsapp?: string;
+      contact_phone?: string;
+      images?: string[];
     } = {};
 
-    if (formData.productImages.length > 1) {
-      const imageUrls = await uploadImagesToImageBB(formData.productImages);
-
-      if (imageUrls) {
-        updatedProductData.images = imageUrls;
-      }
-    }
-
-    if (formData.name) {
-      updatedProductData.name = formData.name;
-    }
-    if (formData.category) {
-      updatedProductData.category = formData.category;
-    }
-    if (formData.newPrice) {
-      updatedProductData.newPrice = formData.newPrice;
-    }
-    if (formData.oldPrice) {
-      updatedProductData.oldPrice = formData.oldPrice;
-    }
-    if (formData.rating !== null) {
-      updatedProductData.rating = formData.rating;
-    }
-    if (formData.inStock !== null) {
+    // Conditionally populate the object
+    if (formData.name) updatedProductData.name = formData.name;
+    if (formData.category) updatedProductData.category = formData.category;
+    if (formData.newPrice) updatedProductData.newPrice = formData.newPrice;
+    if (formData.oldPrice) updatedProductData.oldPrice = formData.oldPrice;
+    if (formData.rating !== null) updatedProductData.rating = formData.rating;
+    if (formData.inStock !== null)
       updatedProductData.inStock = formData.inStock;
-    }
-    if (formData.size) {
-      updatedProductData.size = formData.size;
-    }
-    if (formData.brand) {
-      updatedProductData.brand = formData.brand;
-    }
-    if (formData.shopArea) {
-      updatedProductData.shopArea = formData.shopArea;
-    }
-    if (formData.policyDays !== null) {
+    if (formData.size) updatedProductData.size = formData.size;
+    if (formData.brand) updatedProductData.brand = formData.brand;
+    if (formData.shopArea) updatedProductData.shopArea = formData.shopArea;
+    if (formData.policyDays !== null)
       updatedProductData.policyDays = formData.policyDays;
-    }
-    if (formData.contact_whatsapp) {
+    if (formData.contact_whatsapp)
       updatedProductData.contact_whatsapp = formData.contact_whatsapp;
-    }
-    if (formData.contact_phone) {
+    if (formData.contact_phone)
       updatedProductData.contact_phone = formData.contact_phone;
-    }
-    if (imageUrls.length > 0) {
-      updatedProductData.images = imageUrls;
-    }
+    if (imageUrls.length > 0) updatedProductData.images = imageUrls;
+
     console.log(updatedProductData);
     await updateProduct({ _id, ...updatedProductData });
 
@@ -257,7 +232,7 @@ const EditPlantForm: React.FC<EditPlantFormProps> = ({ _id }) => {
                     className="border border-gray-300 rounded-md p-2 w-full bg-gray-100"
                   >
                     <option value="">Select Category</option>
-                    {categories.map((category:any) => (
+                    {categories.map((category: any) => (
                       <option key={category} value={category}>
                         {category}
                       </option>

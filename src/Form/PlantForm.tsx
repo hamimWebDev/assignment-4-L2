@@ -4,7 +4,7 @@ import { useAddProductMutation } from "../redux/api/productApi";
 import axios from "axios";
 
 const PlantForm: React.FC = () => {
-  const { data } = useGetCategoryQuery();
+  const { data } = useGetCategoryQuery(undefined);
   const categories = data?.data.map((item: any) => item.name) || [];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -215,174 +215,238 @@ const PlantForm: React.FC = () => {
               </button>
             </h2>
 
-            <form onSubmit={handleSubmit} className="grid gap-3 md:grid-cols-2">
-              {[
-                {
-                  label: "Product Name",
-                  name: "name",
-                  type: "text",
-                  required: true,
-                },
-                {
-                  label: "Category",
-                  name: "category",
-                  type: "select",
-                  options: categories,
-                  required: true,
-                },
-                {
-                  label: "Price",
-                  name: "newPrice",
-                  type: "string",
-                  required: true,
-                },
-                {
-                  label: "Old Price",
-                  name: "oldPrice",
-                  type: "string",
-                  placeholder: "Optional",
-                },
-                {
-                  label: "Rating",
-                  name: "rating",
-                  type: "number",
-                  min: "1",
-                  max: "5",
-                  required: true,
-                },
-                {
-                  label: "Stock",
-                  name: "inStock",
-                  type: "number",
-                  required: true,
-                },
-                {
-                  label: "Size",
-                  name: "size",
-                  type: "text",
-                  required: true,
-                  placeholder: "1-3Fit",
-                },
-                { label: "Brand", name: "brand", type: "text", required: true },
-                {
-                  label: "Shop Area",
-                  name: "shopArea",
-                  type: "text",
-                  required: true,
-                },
-                {
-                  label: "Policy Days",
-                  name: "policyDays",
-                  type: "number",
-                  required: true,
-                },
-                {
-                  label: "Contact WhatsApp",
-                  name: "contact_whatsapp",
-                  type: "text",
-                  required: true,
-                },
-                {
-                  label: "Contact Phone",
-                  name: "contact_phone",
-                  type: "text",
-                  required: true,
-                },
-              ].map((field) => (
-                <div key={field.name} className="form-control">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {field.label}
+            <form onSubmit={handleSubmit}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    Plant Name
                   </label>
-                  {field.type === "select" ? (
-                    <select
-                      name={field.name}
-                      value={
-                        formData[field.name as keyof typeof formData] || ""
-                      }
-                      onChange={handleChange}
-                      required={field.required}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-slate-100"
-                    >
-                      <option value="">Select {field.label}</option>
-                      {field.options.map((option: any) => (
-                        <option key={option} value={option}>
-                          {option}
-                        </option>
-                      ))}
-                    </select>
-                  ) : (
-                    <input
-                      type={field.type}
-                      name={field.name}
-                      value={
-                        formData[field.name as keyof typeof formData] || ""
-                      }
-                      onChange={handleChange}
-                      min={field.min}
-                      max={field.max}
-                      required={field.required}
-                      placeholder={field.placeholder}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-slate-100"
-                      style={{
-                        WebkitAppearance: "none",
-                        MozAppearance: "textfield",
-                      }}
-                    />
-                  )}
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 p-2 rounded-lg bg-gray-100"
+                    placeholder="Plant Name"
+                    required
+                  />
                 </div>
-              ))}
 
-              <div className="form-control md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Upload Product Images (At least 2 images)
-                </label>
-                <input
-                  type="file"
-                  name="productImages"
-                  onChange={handleImageChange}
-                  multiple
-                  accept="image/*"
-                  className="file-input file-input-bordered file-input-md w-full max-w-xs bg-slate-100"
-                />
-                <div className="mt-4 flex space-x-4">
-                  {formData.images.map((url, index) => (
-                    <img
-                      key={index}
-                      src={url}
-                      alt={`Preview ${index + 1}`}
-                      className="w-24 h-24 object-cover rounded"
-                    />
-                  ))}
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    Category
+                  </label>
+                  <select
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 p-2 rounded-lg bg-gray-100"
+                    required
+                  >
+                    <option value="" disabled>
+                      Select Category
+                    </option>
+                    {categories.map((category: any) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                  </select>
                 </div>
+
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    New Price
+                  </label>
+                  <input
+                    type="number"
+                    name="newPrice"
+                    value={formData.newPrice}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 p-2 rounded-lg bg-gray-100"
+                    placeholder="New Price"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    Old Price
+                  </label>
+                  <input
+                    type="number"
+                    name="oldPrice"
+                    value={formData.oldPrice}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 p-2 rounded-lg bg-gray-100"
+                    placeholder="Old Price"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    Rating
+                  </label>
+                  <input
+                    type="number"
+                    name="rating"
+                    value={formData.rating || ""}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 p-2 rounded-lg bg-gray-100"
+                    placeholder="Rating"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    Stock Quantity
+                  </label>
+                  <input
+                    type="number"
+                    name="inStock"
+                    value={formData.inStock || ""}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 p-2 rounded-lg bg-gray-100"
+                    placeholder="Stock Quantity"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    Size
+                  </label>
+                  <input
+                    type="text"
+                    name="size"
+                    value={formData.size}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 p-2 rounded-lg bg-gray-100"
+                    placeholder="Size"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    Brand
+                  </label>
+                  <input
+                    type="text"
+                    name="brand"
+                    value={formData.brand}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 p-2 rounded-lg bg-gray-100"
+                    placeholder="Brand"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    Shop Area
+                  </label>
+                  <input
+                    type="text"
+                    name="shopArea"
+                    value={formData.shopArea}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 p-2 rounded-lg bg-gray-100"
+                    placeholder="Shop Area"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    Return Policy Days
+                  </label>
+                  <input
+                    type="number"
+                    name="policyDays"
+                    value={formData.policyDays || ""}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 p-2 rounded-lg bg-gray-100"
+                    placeholder="Return Policy Days"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    WhatsApp Contact
+                  </label>
+                  <input
+                    type="text"
+                    name="contact_whatsapp"
+                    value={formData.contact_whatsapp}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 p-2 rounded-lg bg-gray-100"
+                    placeholder="WhatsApp Contact"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    Phone Contact
+                  </label>
+                  <input
+                    type="text"
+                    name="contact_phone"
+                    value={formData.contact_phone}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 p-2 rounded-lg bg-gray-100"
+                    placeholder="Phone Contact"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    Product Images
+                  </label>
+                  <input
+                    type="file"
+                    name="productImages"
+                    onChange={handleImageChange}
+                    multiple
+                    accept="image/*"
+                    className="w-full border border-gray-300 p-2 rounded-lg bg-gray-100"
+                    required
+                  />
+                </div>
+
+                {formData.images.length > 0 && (
+                  <div>
+                    <label className="block text-gray-700 font-semibold mb-2">
+                      Preview
+                    </label>
+                    <div className="flex flex-wrap gap-2">
+                      {formData.images.map((image, index) => (
+                        <img
+                          key={index}
+                          src={image}
+                          alt={`Preview ${index + 1}`}
+                          className="h-20 w-20 object-cover rounded"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
-              <button
-                type="submit"
-                className="md:col-span-2 w-full bg-slate-800 text-white py-2 px-4 rounded-md hover:bg-slate-900 focus:outline-none focus:bg-slate-900"
-              >
-                Submit
-              </button>
+              <div className="mt-6 flex justify-end">
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+                >
+                  Submit
+                </button>
+              </div>
             </form>
-
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
           </div>
         </div>
       )}

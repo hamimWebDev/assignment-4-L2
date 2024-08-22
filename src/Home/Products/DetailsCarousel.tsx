@@ -14,7 +14,7 @@ interface Product {
   brand: string;
   shopArea: string;
   policy: string;
-  PolicyDays: number;
+  policyDays: number;
   contact_whatsapp: string;
   contact_phone: string;
 }
