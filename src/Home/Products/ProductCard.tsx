@@ -49,11 +49,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           ))}
           <span className="ml-2">({product.rating}.0)</span>
         </div>
-        <div className="text-lg mb-2">
+        <div className="mb-2">
           <span className="line-through text-gray-500 mr-2">
-            {product.oldPrice}
+            {product.oldPrice ? `৳${product.oldPrice}` : ""}
           </span>
-          <span className="text-green-500">{product.newPrice}</span>
+          <span className="text-green-500 font-semibold text-xl">{`৳${product.newPrice}`}</span>
         </div>
       </div>
       <div className="flex gap-4 mt-2">
