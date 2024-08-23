@@ -292,6 +292,8 @@ const PlantForm: React.FC = () => {
                     type="number"
                     name="rating"
                     value={formData.rating || ""}
+                    max={5}
+                    min={0}
                     onChange={handleChange}
                     className="w-full border border-gray-300 p-2 rounded-lg bg-gray-100"
                     placeholder="Rating"
