@@ -9,11 +9,11 @@
 
 ## Introduction
 
-Brief introduction or tagline about the project.
+This is a Bangladeshi website for selling tree seedlings.You can buy different plants from here and you can post for sale if you want.
 
 ## Project Description
 
-Detailed description of the project, including its purpose and goals.
+Welcome to our Bangladeshi website, your premier destination for buying and selling tree seedlings. We cater to gardening enthusiasts and plant lovers who seek to enrich their spaces with a diverse selection of plants. From flowering plants to fruit-bearing trees, we offer a wide range of seedlings to suit every garden. Our platform not only allows you to purchase plants with ease but also provides an opportunity for you to post your own plants for sale. Join our community of nature lovers and cultivate your green space with us.
 
 ## Features
 
