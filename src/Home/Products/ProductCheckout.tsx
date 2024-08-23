@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CartSummary from "./CartSummary";
+import { useAppDispatch } from "../../redux/hooks";
+import { clearCart } from "../../redux/features/cartSlice";
 
 const ProductCheckout: React.FC = () => {
   useEffect(() => {
@@ -20,7 +22,7 @@ const ProductCheckout: React.FC = () => {
     const selectedValue = event.target.value;
     setDeliveryArea(selectedValue); // Update the state with the selected value
   };
-
+  const dispatch = useAppDispatch();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -29,7 +31,8 @@ const ProductCheckout: React.FC = () => {
 
     setTimeout(() => {
       navigate(`/`);
-    }, 6000);
+    }, 6000)
+    dispatch(clearCart());
   };
 
   return (
