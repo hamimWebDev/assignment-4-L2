@@ -280,7 +280,6 @@ const PlantForm: React.FC = () => {
                     onChange={handleChange}
                     className="w-full border border-gray-300 p-2 rounded-lg bg-gray-100"
                     placeholder="Old Price"
-                    required
                   />
                 </div>
 
@@ -294,6 +293,8 @@ const PlantForm: React.FC = () => {
                     max={5}
                     min={0}
                     value={formData.rating || ""}
+                    max={5}
+                    min={0}
                     onChange={handleChange}
                     className="w-full border border-gray-300 p-2 rounded-lg bg-gray-100"
                     placeholder="Rating"
