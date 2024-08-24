@@ -26,7 +26,6 @@ const SearchBar = () => {
       );
       setResult(filteredResults);
       setIsOpen(filteredResults.length > 0); // Open dropdown only if there are results
-      console.log("Filtered Results:", filteredResults);
     } catch (error) {
       console.error("Error fetching data:", error);
       setIsOpen(false); // Close dropdown on error

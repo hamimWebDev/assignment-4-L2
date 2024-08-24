@@ -3,10 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CartSummary from "./CartSummary";
-import { useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { clearCart } from "../../redux/features/cartSlice";
+import { useMinusQuantityMutation } from "../../redux/api/productApi";
 
 const ProductCheckout: React.FC = () => {
+  const products = useAppSelector((store) => store.cart.products);
+  const [minusQuantity] = useMinusQuantityMutation();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -30,9 +33,12 @@ const ProductCheckout: React.FC = () => {
     toast.success("Order submitted successfully!");
 
     setTimeout(() => {
+      dispatch(clearCart());
       navigate(`/`);
-    }, 6000)
-    dispatch(clearCart());
+    }, 6000);
+    products.map(async (product) => {
+      await minusQuantity({ id: product._id, quantity: product.quantity });
+    });
   };
 
   return (

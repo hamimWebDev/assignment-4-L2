@@ -136,7 +136,6 @@ const EditPlantForm: React.FC<EditPlantFormProps> = ({ _id }) => {
       updatedProductData.contact_phone = formData.contact_phone;
     if (imageUrls.length > 0) updatedProductData.images = imageUrls;
 
-    console.log(updatedProductData);
     await updateProduct({ _id, ...updatedProductData });
 
     handleReset();

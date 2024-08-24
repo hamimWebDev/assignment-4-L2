@@ -135,7 +135,6 @@ const PlantForm: React.FC = () => {
       contact_phone: formData.contact_phone,
     };
 
-    console.log("Form Data Submitted: ", addProductData);
 
     await addProduct(addProductData); // Send the object to the addProduct mutation
 

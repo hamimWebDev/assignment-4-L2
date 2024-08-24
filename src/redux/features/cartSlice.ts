@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Count } from "../../Home/Products/Counter";
+import { toast } from "react-toastify";
 
 // Define the initial state using that type
 const initialState = {
@@ -17,24 +18,37 @@ export const cartSlice = createSlice({
         (product) => product._id === action.payload._id
       );
 
-      let quantity = Count;
-      if (quantity === undefined) {
-        quantity = 1;
+      if (action.payload.inStock > 0) {
+        let quantity = Count;
+        if (quantity === undefined) {
+          quantity = 1;
+        }
+        if (!isExist) {
+          state.products.push({ ...action.payload, quantity });
+        } else if (isExist) {
+          alert("This product is already added");
+        }
+        state.selectedItem = selectSelectedItem(state);
+        state.totalPrice = selectTotalPrice(state);
       }
-      if (!isExist) {
-        state.products.push({ ...action.payload, quantity });
-      } else if (isExist) {
-        alert("This product is already added");
-      }
-      state.selectedItem = selectSelectedItem(state);
-      state.totalPrice = selectTotalPrice(state);
     },
     updateQuantity: (state: any, action) => {
-      state.products.map((product: any) => {
+      state.products = state.products.map((product: any) => {
         if (product._id === action.payload._id) {
-          if (action.payload.type === "increment") {
+          if (
+            action.payload.type === "increment" &&
+            product.quantity < product.inStock
+          ) {
             product.quantity += 1;
-          } else if (action.payload.type === "decrement") {
+          } else if (
+            product.quantity >= product.inStock &&
+            action.payload.type === "increment"
+          ) {
+            toast.error("No more in our stock");
+          } else if (
+            action.payload.type === "decrement" &&
+            product.quantity > 1
+          ) {
             product.quantity -= 1;
           }
         }

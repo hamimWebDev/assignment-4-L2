@@ -84,7 +84,6 @@ const EditCategoryForm: React.FC<EditCategoryFormProps> = ({ _id }) => {
       return;
     }
 
-    console.log(updateCategoryData);
     try {
       const UpdateData = { _id, ...updateCategoryData };
       await updateCategory(UpdateData);

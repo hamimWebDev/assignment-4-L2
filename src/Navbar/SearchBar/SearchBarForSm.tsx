@@ -13,8 +13,6 @@ const SearchBarForSm = () => {
       );
       const json = await response.json();
 
-      console.log("API Response:", json); // Log the API response
-
       // If the response is an object with a 'data' key or similar, adjust accordingly
       const data = Array.isArray(json) ? json : json.data || [];
 

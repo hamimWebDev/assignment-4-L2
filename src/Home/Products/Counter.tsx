@@ -9,6 +9,7 @@ interface CounterProps {
 export let Count: number;
 
 const Counter: React.FC<CounterProps> = ({ stock }) => {
+  
   const [count, setCount] = useState<number>(1);
 
   Count = count;
@@ -41,7 +42,7 @@ const Counter: React.FC<CounterProps> = ({ stock }) => {
         -
       </button>
       <div className="flex justify-center items-center flex-1 text-xl">
-        {count}
+        {stock > 0 ? count : 0}
       </div>
       <button
         onClick={increment}

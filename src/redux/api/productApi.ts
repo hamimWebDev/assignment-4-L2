@@ -46,6 +46,16 @@ const productApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["product"],
     }),
+    minusQuantity: builder.mutation({
+      query: (options) => {
+        return {
+          url: `/product/${options.id}`,
+          method: "POST",
+          body: { quantity: options.quantity },
+        };
+      },
+      invalidatesTags: ["product"],
+    }),
   }),
 });
 
@@ -54,4 +64,5 @@ export const {
   useAddProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,
+  useMinusQuantityMutation,
 } = productApi;

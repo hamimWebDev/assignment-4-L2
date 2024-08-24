@@ -78,8 +78,6 @@ const CategoryForm: React.FC = () => {
         name: formData.name,
         imgSrc: imageUrl,
       };
-
-      console.log("Form Data Submitted: ", addCategoryData);
       AddCategory(addCategoryData);
       setIsModalOpen(false);
       setFormData({
